@@ -1,7 +1,9 @@
 let a = 0
 let b = 0
 let operator = ""; 
-let res = 0
+
+const display = document.querySelector("#display") 
+
 function add(a,b){
      
     return a+b;
