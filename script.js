@@ -1,8 +1,9 @@
 let previousValue = "";
 let currentValue = "";
-let operator = ""; 
+let operator = null; 
 let currentDisplay = document.querySelector(".current")
 let previousDisplay = document.querySelector(".previous")
+let clearCurrDisplay = false
 
 const digits = document.querySelectorAll(".digit")
 const operators = document.querySelectorAll(".operaBtn")
@@ -39,8 +40,13 @@ digits.forEach(number => number.addEventListener('click', function() {
 }))
 
 operators.forEach(op => op.addEventListener('click', function(e) {
+    if(operator !== null) calculate()
+    
     handleOperator(e.target.textContent)
-    updatePreviousDisplay()
+
+    previousValue = currentDisplay.textContent;
+
+    previousDisplay.textContent = `${previousValue} ${operator}`
 }))
 
 equal.addEventListener('click', () => {
@@ -54,29 +60,41 @@ clearBtn.addEventListener('click', clearDisplay)
     ---FUNCTIONS---
 */
 function appendNumber(num){
-    if (currentValue.length <= 10){
-        currentValue += num
-    }
-    currentDisplay.textContent = currentValue;
-}
+    if(currentDisplay.textContent === "0" || clearCurrDisplay) resetCurrentDisplay()
 
-/*
-    When we click on the operator, it stores the value of the operation into operator var
-    It also stores the value of currentValue into previousValue and resets the currentValue value
-*/
-function handleOperator(op) {
-    operator = op;
-    previousValue = currentValue;
-    currentValue = "";
+    if (currentDisplay.textContent.length <= 10){
+        currentDisplay.textContent += num
+    }
 }
 
 function updateDisplayAfterEqual() {
     updatePreviousDisplay();
     previousDisplay.textContent += " " + currentValue + " ="
+    clearCurrDisplay = true
 }
 
 function updatePreviousDisplay() {
     previousDisplay.textContent = previousValue +" "+ operator;
+}
+
+function handleOperator(op) {
+    operator = op;
+    //previousValue = currentValue;
+    clearCurrDisplay = true
+}
+
+function calculate() {
+    if(operator === null || clearCurrDisplay) return;
+
+    currentValue = currentDisplay.textContent;
+    currentDisplay.textContent = operate(previousValue, operator, currentValue)
+
+    operator = null;
+}
+
+function resetCurrentDisplay() {
+    currentDisplay.textContent = "";
+    clearCurrDisplay = false
 }
 
 function add(previousValue,currentValue){
@@ -114,10 +132,11 @@ function operate(previousValue,operator,currentValue){
 function clearDisplay() {
     previousValue = "";
     currentValue = "";
-    operator = "";
+    operator = null;
     currentDisplay.textContent = "0";
     previousDisplay.textContent = currentValue;
 }
+
 /*digits.forEach((number) => number.addEventListener('click', function(){
         console.log(currentDisplay.textContent.toString())
         currentValue += currentDisplay.textContent.toString() 
