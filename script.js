@@ -84,11 +84,25 @@ digits.forEach(number => number.addEventListener('click', function() {
         //currentDisplay.textContent = currentValue;
     }))*/
 
+operators.forEach(op => op.addEventListener('click', function(e) {
+    handleOperator(e.target.textContent)
+}))
+
 function appendNumber(num){
     if (currentValue.length <= 10){
         currentValue += num
     }
     currentDisplay.textContent = currentValue;
+}
+
+/*
+    When we click on the operator, it stores the value of the operation into operator var
+    It also stores the value of currentValue into previousValue and resets the currentValue value
+*/
+function handleOperator(op) {
+    operator = op;
+    previousValue = currentValue;
+    currentValue = "";
 }
 
 /*function handleOperator(op){
