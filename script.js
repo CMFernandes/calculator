@@ -31,10 +31,52 @@ function clearDisplay() {
 }*/
    
 
+
+
+
+/*
+    ---EVENT LISTENERS---
+*/
+digits.forEach(number => number.addEventListener('click', function() {
+    appendNumber(number.textContent)
+}))
+
+operators.forEach(op => op.addEventListener('click', function(e) {
+    handleOperator(e.target.textContent)
+}))
+
+equal.addEventListener('click', () => {
+    currentValue = operate(previousValue, operator, currentValue)
+})
+
+/*equal.addEventListener('click', () =>{
+    currentValue = operate(previousValue,operator,currentValue)
+    previousDisplay.textContent = "0";
+    currentDisplay.textContent = currentValue;
+})
+
+/*
+    ---FUNCTIONS---
+*/
+function appendNumber(num){
+    if (currentValue.length <= 10){
+        currentValue += num
+    }
+    currentDisplay.textContent = currentValue;
+}
+
+/*
+    When we click on the operator, it stores the value of the operation into operator var
+    It also stores the value of currentValue into previousValue and resets the currentValue value
+*/
+function handleOperator(op) {
+    operator = op;
+    previousValue = currentValue;
+    currentValue = "";
+}
+
 function add(previousValue,currentValue){
-    
-    previousValue += currentValue;
-    
+    return previousValue += currentValue; 
 }
 
 function subtract(previousValue,currentValue){
@@ -54,22 +96,16 @@ function operate(previousValue,operator,currentValue){
     currentValue =  Number(currentValue)
     switch(operator){
         case "+": 
-            return previousValue += currentValue;
+            console.log("DEBUG: Add operation")
+            return add(previousValue,currentValue);
         case "-": 
             return subtract(previousValue,currentValue)
         case "*":
-            return  multiply(previousValue,currentValue)
-            
+            return multiply(previousValue,currentValue)   
         case "/":
-            return  divide(previousValue,currentValue)
+            return divide(previousValue,currentValue)
     }
-    console.log(previousValue)
 }
-
-digits.forEach(number => number.addEventListener('click', function() {
-    appendNumber(number.textContent)
-}))
-
 /*digits.forEach((number) => number.addEventListener('click', function(){
         console.log(currentDisplay.textContent.toString())
         currentValue += currentDisplay.textContent.toString() 
@@ -84,26 +120,12 @@ digits.forEach(number => number.addEventListener('click', function() {
         //currentDisplay.textContent = currentValue;
     }))*/
 
-operators.forEach(op => op.addEventListener('click', function(e) {
-    handleOperator(e.target.textContent)
-}))
 
-function appendNumber(num){
-    if (currentValue.length <= 10){
-        currentValue += num
-    }
-    currentDisplay.textContent = currentValue;
-}
 
-/*
-    When we click on the operator, it stores the value of the operation into operator var
-    It also stores the value of currentValue into previousValue and resets the currentValue value
-*/
-function handleOperator(op) {
-    operator = op;
-    previousValue = currentValue;
-    currentValue = "";
-}
+
+
+
+
 
 /*function handleOperator(op){
     operator = op;
