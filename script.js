@@ -31,9 +31,6 @@ function clearDisplay() {
 }*/
    
 
-
-
-
 /*
     ---EVENT LISTENERS---
 */
@@ -43,16 +40,13 @@ digits.forEach(number => number.addEventListener('click', function() {
 
 operators.forEach(op => op.addEventListener('click', function(e) {
     handleOperator(e.target.textContent)
+    updatePreviousDisplay()
 }))
 
 equal.addEventListener('click', () => {
-    currentValue = operate(previousValue, operator, currentValue)
-})
-
-/*equal.addEventListener('click', () =>{
-    currentValue = operate(previousValue,operator,currentValue)
-    previousDisplay.textContent = "0";
-    currentDisplay.textContent = currentValue;
+    currentValue = currentDisplay.textContent;
+    currentDisplay.textContent = operate(previousValue, operator, currentValue)
+    updateDisplayAfterEqual()
 })
 
 /*
@@ -73,6 +67,15 @@ function handleOperator(op) {
     operator = op;
     previousValue = currentValue;
     currentValue = "";
+}
+
+function updateDisplayAfterEqual() {
+    updatePreviousDisplay();
+    previousDisplay.textContent += " " + currentValue + " ="
+}
+
+function updatePreviousDisplay() {
+    previousDisplay.textContent = previousValue +" "+ operator;
 }
 
 function add(previousValue,currentValue){
