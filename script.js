@@ -49,6 +49,7 @@ equal.addEventListener('click', () => {
     updateDisplayAfterEqual()
 })
 
+clearBtn.addEventListener('click', clearDisplay)
 /*
     ---FUNCTIONS---
 */
@@ -109,6 +110,14 @@ function operate(previousValue,operator,currentValue){
             return divide(previousValue,currentValue)
     }
 }
+
+function clearDisplay() {
+    previousValue = "";
+    currentValue = "";
+    operator = "";
+    currentDisplay.textContent = "0";
+    previousDisplay.textContent = currentValue;
+}
 /*digits.forEach((number) => number.addEventListener('click', function(){
         console.log(currentDisplay.textContent.toString())
         currentValue += currentDisplay.textContent.toString() 
@@ -136,6 +145,6 @@ function operate(previousValue,operator,currentValue){
     currentValue = "";
 }*/
 
-//clearBtn.addEventListener('click', clearDisplay)
+//
 
 
