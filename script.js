@@ -67,8 +67,7 @@ function operate(previousValue,operator,currentValue){
 }
 
 digits.forEach(number => number.addEventListener('click', function() {
-    currentValue = number.textContent
-    appendNumber(currentValue)
+    appendNumber(number.textContent)
 }))
 
 /*digits.forEach((number) => number.addEventListener('click', function(){
@@ -86,9 +85,9 @@ digits.forEach(number => number.addEventListener('click', function() {
     }))*/
 
 function appendNumber(num){
-    //if (currentValue.length <= 10){
+    if (currentValue.length <= 10){
         currentValue += num
-   // }
+    }
     currentDisplay.textContent = currentValue;
 }
 
