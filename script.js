@@ -7,7 +7,9 @@ let clearCurrDisplay = false
 
 const digits = document.querySelectorAll(".digit")
 const operators = document.querySelectorAll(".operaBtn")
+const dot = document.querySelector("#decimal")
 
+const backSpace = document.querySelector("#backSpace")
 const clearBtn = document.querySelector("#clear")
 const equal = document.querySelector("#equalBtn")
 
@@ -16,22 +18,7 @@ const subBtn = document.querySelector("#subBtn")
 const mulBtn = document.querySelector("#multBtn")
 const diviBtn = document.querySelector("#diviBtn")
 
-
-/*equal.addEventListener('click', () =>{
-    currentValue = operate(previousValue,operator,currentValue)
-    previousDisplay.textContent = "0";
-    currentDisplay.textContent = currentValue;
-})
-
-function clearDisplay() {
-    previousValue = "";
-    currentValue = "";
-    operator = "";
-    currentDisplay.textContent = "0";
-    previousDisplay.textContent = currentValue;
-}*/
-   
-
+currentDisplay.textContent = "0";
 /*
     ---EVENT LISTENERS---
 */
@@ -40,7 +27,7 @@ digits.forEach(number => number.addEventListener('click', function() {
 }))
 
 operators.forEach(op => op.addEventListener('click', function(e) {
-    if(operator !== null) calculate()
+    calculate()
     
     handleOperator(e.target.textContent)
 
@@ -56,9 +43,20 @@ equal.addEventListener('click', () => {
 })
 
 clearBtn.addEventListener('click', clearDisplay)
+
+dot.addEventListener('click', () =>  {
+    if(currentDisplay.textContent.includes(".")) return;
+    currentDisplay.textContent += ".";
+})
+
+backSpace.addEventListener('click', () =>  deleteLastDigit())
+    
 /*
     ---FUNCTIONS---
 */
+function deleteLastDigit(){
+    currentDisplay.textContent = currentDisplay.textContent.slice(0, -1);
+}
 function appendNumber(num){
     if(currentDisplay.textContent === "0" || clearCurrDisplay) resetCurrentDisplay()
 
@@ -79,7 +77,6 @@ function updatePreviousDisplay() {
 
 function handleOperator(op) {
     operator = op;
-    //previousValue = currentValue;
     clearCurrDisplay = true
 }
 
@@ -110,6 +107,7 @@ function multiply(previousValue,currentValue){
 }
 
 function divide(previousValue,currentValue){
+    
     return previousValue /= currentValue;
 }
 
@@ -125,7 +123,10 @@ function operate(previousValue,operator,currentValue){
         case "*":
             return multiply(previousValue,currentValue)   
         case "/":
-            return divide(previousValue,currentValue)
+            if(previousValue || currentValue === 0){
+                alert("Can't divide by 0!")
+                clearDisplay()
+            }else return divide(previousValue,currentValue)
     }
 }
 
@@ -137,33 +138,6 @@ function clearDisplay() {
     previousDisplay.textContent = currentValue;
 }
 
-/*digits.forEach((number) => number.addEventListener('click', function(){
-        console.log(currentDisplay.textContent.toString())
-        currentValue += currentDisplay.textContent.toString() 
-        appendNumber()
-        console.log(currentValue)
-    }))*/
 
-
-/*operators.forEach(op => op.addEventListener('click', function(e){
-        handleOperator(e.target.textContent)
-        previousDisplay.textContent = previousValue +" "+ operator;
-        //currentDisplay.textContent = currentValue;
-    }))*/
-
-
-
-
-
-
-
-
-/*function handleOperator(op){
-    operator = op;
-    previousValue = currentValue;
-    currentValue = "";
-}*/
-
-//
 
 
