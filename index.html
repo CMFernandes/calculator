@@ -4,31 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
     <title>Calculator</title>
 </head>
 <body>
+    <h1>Calculator</h1>
     <div class="calculator">
-    <div id="display">0</div>
+    <div class="display">
+        <div class="previous"></div>
+        <div class="current"></div>
+    </div>
+        <div class="btn-container">
+        
+        <button  class="btn digit" >0</button>
+        <button  class="btn" id= "decimal">.</button>
+       
+        <button  class="btn" id="equalBtn">=</button>
+        <button  class="btn digit" >1</button>
+        <button  class="btn digit" >2</button>
+        <button  class="btn  digit" >3</button>
+        <button  id="diviBtn" class="btn operaBtn">/</button>
     
-    <button id="oneBtn" class="digit" data-number="1">1</button>
-    <button id="twoBtn" class="digit" data-number="2">2</button>
-    <button id="threeBtn" class="digit" data-number="3">3</button>
-    <button id="fourBtn" class="digit" data-number="4">4</button>
-    <button id="fiveBtn" class="digit" data-number="5">5</button>
-    <button id="sixBtn" class="digit" data-number="6">6</button>
-    <button id="sevenBtn" class="digit" data-number="7">7</button>
-    <button id="eightBtn" class="digit" data-number="8">8</button>
-    <button id="nineBtn" class="digit" data-number="9">9</button>
-    <button id="zeroBtn" class="digit" data-number="0">0</button>
+        <button  class="btn digit" >4</button>
+        <button  class="btn digit" >5</button>
+        <button  class="btn digit" >6</button>
+        <button  id="multBtn" class="btn operaBtn">*</button>
+        
+        <button  class="btn digit" >7</button>
+        <button  class="btn digit" >8</button>
+        <button  class="btn digit" >9</button>
 
-    <button id="addBtn">+</button>
-    <button id="subBtn">-</button>
-    <button id="multBtn">*</button>
-    <button id="diviBtn">/</button>
-    <button id="equalBtn">=</button>
-    <button id="clear">Clear</button>
-    
-</div>
+        <button  class="btn" id="backSpace" >&#9003 </button>
+        <button  id="subBtn" class="btn operaBtn">-</button>
+        <button  class="btn" id="clear">C</button>
+        <button  id="addBtn" class="btn operaBtn">+</button>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
+
+
+        
