@@ -1,65 +1,106 @@
 let previousValue = "";
 let currentValue = "";
 let operator = null; 
-let currentDisplay = document.querySelector(".current")
-let previousDisplay = document.querySelector(".previous")
-let clearCurrDisplay = false
+let currentDisplay = document.querySelector(".current");
+let previousDisplay = document.querySelector(".previous");
+let clearCurrDisplay = false;
 
-const digits = document.querySelectorAll(".digit")
-const operators = document.querySelectorAll(".operaBtn")
-const dot = document.querySelector("#decimal")
+const digits = document.querySelectorAll(".digit");
+const operators = document.querySelectorAll(".operaBtn");
+const dot = document.querySelector("#decimal");
+const plusMinus = document.querySelector("#plusMinus");
+const percent = document.querySelector("#percent");
 
-const backSpace = document.querySelector("#backSpace")
-const clearBtn = document.querySelector("#clear")
-const equal = document.querySelector("#equalBtn")
+const backSpace = document.querySelector("#backSpace");
+const clearBtn = document.querySelector("#clear");
+const equal = document.querySelector("#equalBtn");
 
-const addBtn = document.querySelector("#addBtn")
-const subBtn = document.querySelector("#subBtn")
-const mulBtn = document.querySelector("#multBtn")
-const diviBtn = document.querySelector("#diviBtn")
+const addBtn = document.querySelector("#addBtn");
+const subBtn = document.querySelector("#subBtn");
+const mulBtn = document.querySelector("#multBtn");
+const diviBtn = document.querySelector("#diviBtn");
 
 currentDisplay.textContent = "0";
-/*
-    ---EVENT LISTENERS---
-*/
+
+document.addEventListener('keydown', handleKeyPress)
+
 digits.forEach(number => number.addEventListener('click', function() {
-    appendNumber(number.textContent)
+    appendNumber(number.textContent);
 }))
 
 operators.forEach(op => op.addEventListener('click', function(e) {
     calculate()
-    
-    handleOperator(e.target.textContent)
-
+    handleOperator(e.target.textContent);
     previousValue = currentDisplay.textContent;
-
     previousDisplay.textContent = `${previousValue} ${operator}`
 }))
 
-equal.addEventListener('click', () => {
-    currentValue = currentDisplay.textContent;
-    currentDisplay.textContent = operate(previousValue, operator, currentValue)
-    updateDisplayAfterEqual()
-})
+equal.addEventListener('click', equalOperation)
 
 clearBtn.addEventListener('click', clearDisplay)
 
-dot.addEventListener('click', () =>  {
-    if(currentDisplay.textContent.includes(".")) return;
-    currentDisplay.textContent += ".";
-})
+dot.addEventListener('click',appendDot)
 
 backSpace.addEventListener('click', () =>  deleteLastDigit())
     
-/*
-    ---FUNCTIONS---
-*/
+plusMinus.addEventListener('click', () => {
+    currentDisplay.textContent *= -1 ;
+})
+
+percent.addEventListener('click', () =>{
+    currentDisplay.textContent /= 100;
+})
+
+function handleKeyPress(event) {
+    const key = event.key;
+  
+    if (/\d/.test(key)) {
+      // Handle digit key
+      appendNumber(key);
+    } else if (/[+\-*/]/.test(key)) {
+      // Handle operator key
+      calculate();
+      handleOperator(key);
+      previousValue = currentDisplay.textContent;
+      updatePreviousDisplay();
+    } else if (key === '.') {
+      // Handle dot key
+      appendDot();
+    } else if (key === '%') {
+      // Handle percent key
+      percentFunc();
+    } else if (key === '-') {
+      // Handle plus/minus key
+      plusMinusFunc();
+    } else if (key === 'Backspace') {
+      // Handle backspace key
+      deleteLastDigit();
+    } else if (key === 'Enter') {
+      // Handle enter key
+      equalOperation();
+    } else if (key === 'Escape') {
+      // Handle escape key
+      clearDisplay();
+    }
+}
+
+function equalOperation(){
+    currentValue = currentDisplay.textContent;
+    currentDisplay.textContent = Math.round(operate(previousValue, operator, currentValue) * 100) / 100
+    if(currentDisplay.textContent !== "0") {
+        updateDisplayAfterEqual()
+    }
+}
+function appendDot(){
+    if(currentDisplay.textContent.includes(".")) return;
+    currentDisplay.textContent += ".";
+}
 function deleteLastDigit(){
     currentDisplay.textContent = currentDisplay.textContent.slice(0, -1);
 }
 function appendNumber(num){
     if(currentDisplay.textContent === "0" || clearCurrDisplay) resetCurrentDisplay()
-
+    
     if (currentDisplay.textContent.length <= 10){
         currentDisplay.textContent += num
     }
@@ -84,7 +125,7 @@ function calculate() {
     if(operator === null || clearCurrDisplay) return;
 
     currentValue = currentDisplay.textContent;
-    currentDisplay.textContent = operate(previousValue, operator, currentValue)
+    currentDisplay.textContent = Math.round(operate(previousValue, operator, currentValue) * 100) / 100
 
     operator = null;
 }
@@ -123,9 +164,10 @@ function operate(previousValue,operator,currentValue){
         case "*":
             return multiply(previousValue,currentValue)   
         case "/":
-            if(previousValue || currentValue === 0){
+            if(previousValue === 0 || currentValue === 0){
                 alert("Can't divide by 0!")
                 clearDisplay()
+                return;
             }else return divide(previousValue,currentValue)
     }
 }
