@@ -86,7 +86,7 @@ function handleKeyPress(event) {
 }
 
 function equalOperation(){
-    if(currentDisplay.textContent === "0" && previousDisplay.textContent === ""){
+    if(previousDisplay.textContent === ""){
         return
     }
     currentValue = currentDisplay.textContent;
@@ -161,7 +161,6 @@ function operate(previousValue,operator,currentValue){
     currentValue =  Number(currentValue)
     switch(operator){
         case "+": 
-            console.log("DEBUG: Add operation")
             return add(previousValue,currentValue);
         case "-": 
             return subtract(previousValue,currentValue)
