@@ -76,6 +76,7 @@ function handleKeyPress(event) {
       // Handle backspace key
       deleteLastDigit();
     } else if (key === 'Enter') {
+        console.log("Enter key press")
       // Handle enter key
       equalOperation();
     } else if (key === 'Escape') {
@@ -85,11 +86,14 @@ function handleKeyPress(event) {
 }
 
 function equalOperation(){
+    if(currentDisplay.textContent === "0" && previousDisplay.textContent === ""){
+        return
+    }
     currentValue = currentDisplay.textContent;
     currentDisplay.textContent = Math.round(operate(previousValue, operator, currentValue) * 100) / 100
-    if(currentDisplay.textContent !== "0") {
-        updateDisplayAfterEqual()
-    }
+    
+    updateDisplayAfterEqual()
+   
 }
 function appendDot(){
     if(currentDisplay.textContent.includes(".")) return;
@@ -122,7 +126,7 @@ function handleOperator(op) {
 }
 
 function calculate() {
-    if(operator === null || clearCurrDisplay) return;
+    if(operator === null || clearCurrDisplay || previousValue === NaN || currentValue === NaN) return;
 
     currentValue = currentDisplay.textContent;
     currentDisplay.textContent = Math.round(operate(previousValue, operator, currentValue) * 100) / 100
